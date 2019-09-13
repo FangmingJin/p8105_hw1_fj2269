@@ -1,0 +1,7 @@
+---
+title: "p8105_hw1_fj2269"
+author: "Fangming Jin"
+date: "2019/9/13"
+output: github_document
+---
+
