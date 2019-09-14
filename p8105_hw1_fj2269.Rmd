@@ -28,7 +28,7 @@ mean(as.numeric(pull(frame_one, vec_char)))
 mean(as.numeric(pull(frame_one, vec_factor)))
 ```
 
-*Factor vector and logical vector can be converted to numeric and calculate mean for ordinal variable and nominal variable in them is ranked. Character vector does not have level and does not have mean.*
+*Factor vector and logical vector can be converted to numeric and calculate mean for ordinal variable and binary variable in them is ranked. Character vector does not have level and does not have mean.*
 
 ### Step 2: Transform the type of logical vector and multiple random sample
 
@@ -39,6 +39,8 @@ as.numeric(as.factor(pull(frame_one, norm_samp_pos)))*pull(frame_one, norm_samp)
 ```
 
 *Only When the two vector are both numeric vector can they multiple with each other.*
+
+*When binary variables without level were convert to numeric, TRUE turns to 1 and FALSE turn to 0. In contrary, when we use as.numeric, variables in factor vector are converted from 1 to n according to level. For binary variables in factor vector, TRUE turns to 2 and FALSE turns to 1.*
 
 ## Question 2
 
@@ -55,7 +57,9 @@ frame_two = tibble(
 ```
 
 *This frame have `r nrow(frame_two)` row and `r ncol(frame_two)` column.*
+
 *The mean of x is `r mean(pull(frame_two,x))`, the median of x is `r median(pull(frame_two,x))`, the standard deviation of x is `r sd(pull(frame_two,x))`.*
+
 *The proportion of cases for which x + y > 1 is `r length(which(pull(frame_two,x_add_y)==TRUE))/500`.*
 
 ### Step 2: Make three scatterplot of x vs y
