@@ -5,3 +5,69 @@ date: "2019/9/13"
 output: github_document
 ---
 
+Homework 1
+------------------------------------------------------------
+
+## Question 1
+
+### Step 1: Create a data frame, calculate the mean of each variable
+
+```{r Q1S1, fig.show='hide', warning=FALSE, results='hide'}
+library(tidyverse)
+
+frame_one = tibble(
+  norm_samp = rnorm(8),
+  norm_samp_pos = norm_samp > 0,
+  vec_char = c("Baggins", "Melkor", "Manwe", "Sauron", "Feanor", "Fingolfin", "Finarfin", "Luthien"),
+  vec_factor = factor(c("Hobbit", "God", "God", "God", "Elf", "Elf", "Elf", "Elf"),order=TRUE,levels = c("Hobbit","Elf","God"))
+)
+
+mean(pull(frame_one, norm_samp))
+mean(as.numeric(pull(frame_one, norm_samp_pos)))
+mean(as.numeric(pull(frame_one, vec_char)))
+mean(as.numeric(pull(frame_one, vec_factor)))
+```
+
+*Factor vector and logical vector can be converted to numeric and calculate mean for ordinal variable and nominal variable in them is ranked. Character vector does not have level and does not have mean*
+
+### Step 2: Transform the type of logical vector and multiple random sample
+
+```{r Q1S2, warning=FALSE}
+as.numeric(pull(frame_one, norm_samp_pos))*pull(frame_one, norm_samp)
+as.factor(pull(frame_one, norm_samp_pos))*pull(frame_one, norm_samp)
+as.numeric(as.factor(pull(frame_one, norm_samp_pos)))*pull(frame_one, norm_samp)
+```
+
+*Only When the two vector are both numeric vector can they multiple with each other*
+
+## Question 2
+
+### Step 1: Create another data frame and describe it 
+
+```{r Q2S1, warning=FALSE}
+frame_two = tibble(
+  x = rnorm(500),
+  y = rnorm(500),
+  x_add_y = x + y > 1,
+  vec_num = as.numeric(x_add_y),
+  vec_fac = as.factor(x_add_y)
+)
+```
+
+*This frame have `r nrow(frame_two)` row and `r ncol(frame_two)` column*
+*The mean of x is `r mean(pull(frame_two,x))`, the median of x is `r median(pull(frame_two,x))`, the standard deviation of x is `r sd(pull(frame_two,x))`*
+*The proportion of cases for which x + y > 1 is `r length(which(pull(frame_two,x_add_y)==TRUE))/500`*
+
+### Step 2: Make three scatterplot of x vs y
+
+```{r Q2S2, warning=FALSE}
+ggplot(frame_two,aes(x = x, y = y,color = x_add_y)) + geom_point(shape=19) +
+    xlab("X") + ylab("Y")
+ggsave("scatter_plot_one.pdf")
+ggplot(frame_two,aes(x = x, y = y,color = vec_num)) + geom_point(shape=19) +
+    xlab("X") + ylab("Y")
+ggplot(frame_two,aes(x = x, y = y,color = vec_fac)) + geom_point(shape=19) +
+    xlab("X") + ylab("Y")
+```
+
+*The three scatterplot all have two kind of color, The color scale of first and third scatterplot is the same, red and blue. The color of plot in second graph is dark blue and light blue* 
